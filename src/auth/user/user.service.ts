@@ -16,6 +16,10 @@ export class UserService {
         private readonly roleService: RoleService,
     ) {}
 
+    findById(id: number) {
+        return this.userRepository.findOneBy({ id });
+    }
+
     findAll() {
         return this.userRepository.find();
     }
@@ -34,7 +38,7 @@ export class UserService {
     }
 
     async create(createUseDto: CreateUserDto) {
-        // Buscamos el role segun el nombre
+        
         const role = await this.roleService.findByName(createUseDto.roleName);
         if (!role) {
             throw new Error('Role not found');
@@ -47,9 +51,5 @@ export class UserService {
         });
 
         return this.userRepository.save(newUser);
-    }
-
-    findById(id: number) {
-        return this.userRepository.findOneBy({ id });
     }
 }
